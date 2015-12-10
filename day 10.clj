@@ -7,15 +7,13 @@
                                 '())
                        )))
 
-(def break-it-up-2 (partial partition-by identity))
-
 (break-it-up "1121")
 
 (def build-it-down (partial mapcat #(str (count %) (first %))))
 
 (build-it-down (break-it-up "1121"))
 
-(def day-10-problem (iterate (comp build-it-down break-it-up-2) "1113222113"))
+(def day-10-problem (iterate (comp build-it-down break-it-up) "1113222113"))
 
 ; part 1
 (count (nth day-10-problem 40))
