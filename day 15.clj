@@ -33,16 +33,13 @@
                        "Sugar" {:capacity -1, :durability 0, :flavor 0, :texture 2, :calories 8}
                        })
 
-(def all-improvisations 
-  (fn [space ingredients]
-    (if (empty? (rest ingredients))
-      [{(first ingredients) space}]
-      (mapcat 
-       (fn [amount] 
-         (map (fn [recipe] (assoc recipe (first ingredients) amount))
-              (all-improvisations (- space amount) (rest ingredients))))
-       (range (inc space)))
-      )
+(defn all-improvisations [space ingredients]
+  (if (empty? (rest ingredients))
+    [{(first ingredients) space}]
+    (mapcat #(->> (rest ingredients)
+                  (all-improvisations (- space %))
+                  (map (fn [r] (assoc r (first ingredients) %))))
+            (range (inc space)))
     )
   )
 
